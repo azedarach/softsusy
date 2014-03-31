@@ -73,8 +73,8 @@ doc/nmssmManual.pdf
 EXTRA_DIST=$(DOCFILES)
 
 if FULL_SUSY_THRESHOLD
-include src/two_loop_thresholds/mssmparam.amk
-include src/two_loop_thresholds/two_loop_th.amk
+#include src/two_loop_thresholds/mssmparam.amk
+#include src/two_loop_thresholds/two_loop_th.amk
 endif
 
 OUTPUTFILES = inOutFiles/slha2Output inOutFiles/lesHouchesOutput inOutFiles/rpvHouchesOutput \
