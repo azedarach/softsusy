@@ -140,6 +140,10 @@ public:
 
   /// Reads in soft SUSY breaking parameters from a file
   void inputSoftParsOnly();
+
+//Badziak
+
+	void gmsbNMSSM(int n5, double LAMBDA, double mMess, double cgrav, double lambdaPhi, double lambdaT);
 };
 
 /// Formatted ouput of whole object
@@ -217,6 +221,10 @@ inline void SoftParsNmssm::setMsSquared(double f) { mSsq = f; }
 inline void SoftParsNmssm::setMspSquared(double f) { mSpsq = f; }
 inline void SoftParsNmssm::setXiS(double f) { xiS = f; }
 inline void SoftParsNmssm::setSoftPars(SoftParsNmssm const & s) { *this = s; }
+
+
+
+
 
 } // namespace softsusy
 

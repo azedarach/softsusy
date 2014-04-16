@@ -25,7 +25,7 @@ double SoftParsNmssm::displaySoftAlambda() const {
   if (fabs(displayLambda()) < 1.0e-100) {
     ostringstream ii;
     ii << "WARNING: asking for SoftParsNmssm::displaySoftAlambda() where Yukawa coupling is " <<
-       fabs(displayLambda()) << '\n';
+       fabs(displayLambda()) << endl;
     throw ii.str();
   }
   double temp = displayTrialambda() / displayLambda();
@@ -36,7 +36,7 @@ double SoftParsNmssm::displaySoftAkappa() const {
   if (fabs(displayKappa()) < 1.0e-100) {
     ostringstream ii;
     ii << "WARNING: asking for SoftParsNmssm::displaySoftAkappa() where Yukawa coupling is " <<
-       fabs(displayKappa()) << '\n';
+       fabs(displayKappa()) << endl;
     throw ii.str();
   }
   double temp = displayTriakappa() / displayKappa();
@@ -755,7 +755,7 @@ void SoftParsNmssm::standardsemiSugra(double m0, double m12, double a0, double A
 }
 
 ostream & operator <<(ostream &left, const SoftParsNmssm &s) {
-  left << "SUSY breaking NMSSM parameters at Q: " << s.displayMu() << '\n';
+  left << "SUSY breaking NMSSM parameters at Q: " << s.displayMu() << endl;
   left << " UA" << s.displayTrilinear(UA)
        << " UD" << s.displayTrilinear(DA)
        << " UE" << s.displayTrilinear(EA);
@@ -780,14 +780,14 @@ ostream & operator <<(ostream &left, const SoftParsNmssm &s) {
 
 void SoftParsNmssm::inputSoftParsOnly() {
   SoftPars<NmssmSusy, nmsBrevity>::inputSoftParsOnly();
-  string c;
+  char c[70];
   cin >> c >> mSsq >> c >> mSpsq >> c >> xiS;
   cin >> c >> alambda
       >> c >> akappa;
 }
 
 istream & operator >>(istream &left, SoftParsNmssm &s) {
-  string c;
+  char c[70];
 
   left >> c >> c >> c >> c >> c >> c >> c;
   DoubleMatrix ua(3, 3), da(3, 3), ea(3, 3);
@@ -826,5 +826,33 @@ istream & operator >>(istream &left, SoftParsNmssm &s) {
   left >> ss;   s.setSusy(ss);
   return left;
 }
+
+// Badziak
+  
+//PA: for semi constrained models.  Designed for the Z3 case but now also
+// works for Z3 violating NMSSM.
+  void SoftParsNmssm::gmsbNMSSM(int n5, double LAMBDA, double mMess, double cgrav, double lambdaPhi, double lambdaT) {
+    SoftPars<NmssmSusy, nmsBrevity>::minimalGmsb(n5, LAMBDA, mMess, cgrav);
+/*
+	setTrialambda(-LAMBDA / (16.0 * sqr(PI)) * (2*sqr(lambdaPhi)+3*sqr(lambdaT)) * displayLambda());
+  setTriakappa(-3*LAMBDA / (16.0 * sqr(PI)) * (2*sqr(lambdaPhi)+3*sqr(lambdaT)) * displayKappa());
+*/
+  setTrialambda(-LAMBDA / (16.0 * sqr(PI)) * 
+		( 2*sqr(lambdaPhi)+3*sqr(lambdaT)) );
+  setTriakappa(+3*LAMBDA / (16.0 * sqr(PI)) * 
+	       ( 2*sqr(lambdaPhi)+3*sqr(lambdaT)) );
+  //In the Z3 violating case we can still have mS as a parameter
+  /*
+    if (!Z3) {
+    //universal bilinears
+    setMsSquared(mS);
+    const double susyMu = displaySusyMu();
+    if (!close(susyMu, 0.0, EPSTOL))
+    setMspSquared(displayM3Squared() * displayMupr() / susyMu);
+    }
+  */
+}
+
+
 
 } // namespace softsusy
