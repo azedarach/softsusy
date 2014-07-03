@@ -831,26 +831,19 @@ istream & operator >>(istream &left, SoftParsNmssm &s) {
   
 //PA: for semi constrained models.  Designed for the Z3 case but now also
 // works for Z3 violating NMSSM.
-  void SoftParsNmssm::gmsbNMSSM(int n5, double LAMBDA, double mMess, double cgrav, double lambdaPhi, double lambdaT) {
+  void SoftParsNmssm::gmsbNMSSM(int n5, double LAMBDA, double mMess, 
+				double cgrav, double xiD, double xiT) {
     SoftPars<NmssmSusy, nmsBrevity>::minimalGmsb(n5, LAMBDA, mMess, cgrav);
-/*
-	setTrialambda(-LAMBDA / (16.0 * sqr(PI)) * (2*sqr(lambdaPhi)+3*sqr(lambdaT)) * displayLambda());
-  setTriakappa(-3*LAMBDA / (16.0 * sqr(PI)) * (2*sqr(lambdaPhi)+3*sqr(lambdaT)) * displayKappa());
-*/
-  setTrialambda(-LAMBDA / (16.0 * sqr(PI)) * 
-		( 2*sqr(lambdaPhi)+3*sqr(lambdaT)) );
-  setTriakappa(+3*LAMBDA / (16.0 * sqr(PI)) * 
-	       ( 2*sqr(lambdaPhi)+3*sqr(lambdaT)) );
-  //In the Z3 violating case we can still have mS as a parameter
-  /*
-    if (!Z3) {
-    //universal bilinears
-    setMsSquared(mS);
-    const double susyMu = displaySusyMu();
-    if (!close(susyMu, 0.0, EPSTOL))
-    setMspSquared(displayM3Squared() * displayMupr() / susyMu);
-    }
-  */
+
+    double dgsContTria = -LAMBDA / (16.0 * sqr(PI)) * 
+      ( 2.0 * sqr(xiD) + 3.0 * sqr(xiD) );
+    
+    /*    cout << "n5=" << n5 << " Lambda=" << LAMBDA << " mMess=" << mMess 
+	 << " cgrav=" << cgrav << " xiD=" << xiD << " xiT=" << xiT
+	 << " dga=" << dgsContTria << endl;*/
+
+    setTrialambda(dgsContTria);
+    setTriakappa(3.0 * dgsContTria);
 }
 
 

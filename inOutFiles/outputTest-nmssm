@@ -1,18 +1,30 @@
-# Low energy data in SOFTSUSY: MIXING=1 TOLERANCE=1.000000e-04
-mU: 1.374942e-03  mC: 6.246789e-01  mt: 1.658566e+02  mt^pole: 1.735000e+02
-mD: 2.733940e-03  mS: 5.985890e-02  mB: 2.849934e+00  mb(mb):  4.180000e+00
-mE: 5.026659e-04  mM: 1.039354e-01  mT: 1.751569e+00  mb^pole: 4.940236e+00
-aE: 1.279160e+02  aS: 1.187000e-01   Q: 9.118760e+01  mT^pole: 1.776990e+00
-loops: 3        thresholds: 1
-
-# tan beta   mh(1)        mh(2)        mA(1)        mH+-
-5.000000e+00 [ Numerical problemThrown ]
-1.000000e+01 [ Numerical problemThrown ]
-1.500000e+01 [ Numerical problemThrown ]
-2.000000e+01 [ Numerical problemThrown ]
-2.500000e+01 [ Numerical problemThrown ]
-3.000000e+01 [ Numerical problemThrown ]
-3.500000e+01 [ Numerical problemThrown ]
-4.000000e+01 [ Numerical problemThrown ]
-4.500000e+01 [ Numerical problemThrown ]
-5.000000e+01 [ Numerical problemThrown ]
+5.000000e+00 1.122009e+02 1.156394e+03 1.156443e+03 1.160085e+03 1.455854e+03 1.157423e+03
+6.166667e+00 1.135966e+02 1.036305e+03 1.130442e+03 1.134246e+03 1.456425e+03 1.161965e+03
+7.333333e+00 1.143039e+02 9.273831e+02 1.114740e+03 1.118690e+03 1.456423e+03 1.164631e+03
+8.500000e+00 1.146418e+02 8.385657e+02 1.103786e+03 1.107874e+03 1.456111e+03 1.166346e+03
+9.666667e+00 1.147518e+02 7.626147e+02 1.095220e+03 1.099447e+03 1.455601e+03 1.167522e+03
+1.083333e+01 [ Not in global min of Higgs potential ]
+1.200000e+01 [ Not in global min of Higgs potential ]
+1.316667e+01 [ Not in global min of Higgs potential ]
+1.433333e+01 [ Not in global min of Higgs potential ]
+1.550000e+01 [ Not in global min of Higgs potential ]
+1.666667e+01 [ Not in global min of Higgs potential ]
+1.783333e+01 [ Not in global min of Higgs potential ]
+1.900000e+01 [ Not in global min of Higgs potential ]
+2.016667e+01 [ h0 tachyon ]
+2.133333e+01 [ h0 tachyon ]
+2.250000e+01 [ h0 tachyon ]
+2.366667e+01 [ h0 tachyon ]
+2.483333e+01 [ h0 tachyon ]
+2.600000e+01 [ h0 tachyon ]
+2.716667e+01 [ h0 tachyon ]
+2.833333e+01 [ h0 tachyon ]
+2.950000e+01 [ h0 tachyon ]
+3.066667e+01 [ h0 tachyon ]
+3.183333e+01 [ h0 tachyon ]
+3.300000e+01 [ h0 tachyon ]
+3.416667e+01 [ h0 tachyon ]
+3.533333e+01 [ h0 tachyon ]
+3.650000e+01 [ h0 tachyon ]
+3.766667e+01 [ h0 tachyon ]
+3.883333e+01 [ h0 tachyon ]

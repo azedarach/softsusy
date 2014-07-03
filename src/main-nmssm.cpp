@@ -14,12 +14,12 @@ int main() {
   outputCharacteristics(6);
   softsusy::PRINTOUT = 0;
 
-  /// Parameters used: CMSSM parameters
-  double m12 = 300., a0 = -300., mGutGuess = 2.0e16, tanb = 10.0, m0 = 500.;
+  /// DGS NMSSM parameters
   int sgnMu = 1;      ///< sign of mu parameter
-  int numPoints = 10; ///< number of scan points
-  double lambda = 0.1, kappa = 0.002, s = 0.0, xiF = 0.0, mupr = 0.0;
-  double n5=1, mMess=1.74e14, LAMBDA=1.e6, cgrav=1, lambdaPhi=0.1, lambdaT=0.1;
+  int numPoints = 30; ///< number of scan points
+  double lambda = 0.05, kappa = 0.002, s = 0.0, xiF = 0.0, mupr = 0.0;
+  double n5 = 2, mMess = 1.74e13, LAMBDA = 1.e5, cgrav = 1., xiPhi = 0.1, 
+    xiT = 0.1;
 
   QedQcd oneset;      ///< See "lowe.h" for default definitions parameters
 
@@ -30,25 +30,21 @@ int main() {
   oneset.setMass(mBottom, mbmb);
   oneset.toMz();      ///< Runs SM fermion masses to MZ
 
-  /// Print out the SM data being used, as well as quark mixing assumption and
-  /// the numerical accuracy of the solution
-  cout << "# Low energy data in SOFTSUSY: MIXING=" << MIXING << " TOLERANCE="
-       << TOLERANCE << endl << oneset << endl;
-
-  /// Print out header line
-  cout << "# tan beta   mh(1)        mh(2)        mA(1)        mH+-\n";
-
   /// Set limits of tan beta scan
-  double startTanb = 5.0, endTanb = 55.0;
+  double startTanb = 5.0, endTanb = 40.0, tanb = 0.;
 
   DoubleVector pars(6);
-  pars(1) = n5; pars(2) = mMess; pars(3) = LAMBDA; pars(4) = cgrav; pars(5)=lambdaPhi ; pars(6)=lambdaT;
+  pars(1) = n5; 
+  pars(2) = LAMBDA;
+  pars(3) = mMess; 
+  pars(4) = cgrav; 
+  pars(5) = xiPhi ; 
+  pars(6) = xiT;
   DoubleVector nmpars(5);
   nmpars(1) = lambda; nmpars(2) = kappa; nmpars(3) = s;
   nmpars(4) = xiF; nmpars(5) = mupr;
   bool uni = false; // MGUT defined by g1(MGUT)=g2(MGUT)
-  bool ewsbBCscale =false;
-	mGutGuess=mMess;
+  double mGutGuess=mMess;
   softsusy::Z3 = true;
 
   for (int i = 0; i < numPoints; i++) {
@@ -60,6 +56,7 @@ int main() {
      try {
        n.lowOrg(gmsbNMSSMBcs, mGutGuess, pars, nmpars, sgnMu, tanb,
                 oneset, uni);
+       //       cout << n; exit(0);
      } catch (const std::string& error) {
        n.flagProblemThrown(true);
      } catch (const char* error) {
@@ -72,7 +69,9 @@ int main() {
              << n.displayPhys().mh0(1) << ' '
              << n.displayPhys().mh0(2) << ' '
              << n.displayPhys().mA0(1) << ' '
-             << n.displayPhys().mHpm << '\n';
+             << n.displayPhys().mHpm <<  ' '
+	     << n.displayPhys().mu(1, 3) << ' '
+	     << n.displayPhys().mu(2, 3) << '\n';
      } else {
         cout << tanb << ' ' << n.displayProblem() << '\n';
      }

@@ -65,6 +65,8 @@ public:
   
   double displayTadpoleSMs() const; ///< displays t_s/s tadpole
   double displayTadpoleSMs1loop() const; ///< displays t_2/v_s tadpole @1 loop
+  double displayMuEff() const { return displaySusyMu() + 
+      displayLambda() * displaySvev() / sqrt(2.0); };
 
   //PA: obtains NMSSM P1-sfermion-sfermion couplings 
   //for 3rd generation sfermions
