@@ -98,6 +98,8 @@ namespace softsusy{
   extern int numTry;
   /// Include eq (62) from hep-ph/0210268: degenerate gluino/squark mass limit
   extern bool includeTwoLoopMssmCorrectionsToMt;
+  /// Do you want to predict tan beta in the NMSSM, rather than input it?
+  extern bool predictTanb;
 }
 
 #endif

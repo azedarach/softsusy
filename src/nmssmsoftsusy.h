@@ -283,6 +283,9 @@ virtual  void treeChargedSlepton(DoubleMatrix & mass, double mTrun, double pizzt
   /// returns 1 if mu < 1.0e-9
   //PA:  nmssm version for use in Z3 violating case.  
   virtual int rewsbM3sq(double mu, double & m3sq) const;
+  /// returns 1 if tan beta is problematic (outside perturbativity bounds or
+  /// imaginary). 
+  virtual int rewsbTanb(double mu, double & tanb) const;
   //PA:: In case of Z3 invariance EWSB outputs kappa instead.
   virtual int rewsbKap(double & kap) const;
   //PA: third EWSB condition (for the singlet Higgs field) 

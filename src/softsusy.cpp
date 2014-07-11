@@ -7137,7 +7137,7 @@ void Softsusy<SoftPars>::sparticleThresholdCorrections(double tb) {
     throw ii.str();
   }
   
-  if (!setTbAtMX) setTanb(tb);
+  if (!setTbAtMX && !predictTanb) setTanb(tb);
   calcDrBarPars(); /// for the up-coming loops
   double alphaMsbar = dataSet.displayAlpha(ALPHA);
   double alphaDrbar = qedSusythresh(alphaMsbar, displayMu());

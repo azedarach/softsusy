@@ -75,5 +75,7 @@ namespace softsusy {
   /// Default: use SOFTSUSY conventions for masses of sparticles in loops, ie
   /// tree-level masses computed with the 2-loop Higgs potential
   bool sphenoMassConv = false;
+  /// Default: tan beta is an input, not an output for NMSSM
+  bool predictTanb = false; 
 }
 /// end of global variable declaration

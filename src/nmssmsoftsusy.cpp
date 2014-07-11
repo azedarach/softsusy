@@ -3207,6 +3207,35 @@ int NmssmSoftsusy::rewsbM3sq(double mu, double & m3sq) const {
   return flag;
 }
 
+/// returns 1 if mu < 1.0e-9
+//PA:  nmssm version for use in Z3 violating case.  
+int NmssmSoftsusy::rewsbTanb(double mu, double & tanb) const {
+  double lam = displayLambda();
+  double s = displaySvev();   
+  double vev =  displayHvev();
+  double al = displayTrialambda();
+  double ak = displayTriakappa();
+  double mupr = displayMupr();
+  double kap = displayKappa();
+  double mssq = displayMsSquared();
+  double mspsq = displayMspSquared();
+  
+  /// Here is the prediction from EWSB conditions - needs checking
+  double s2b = 2.0 / (lam * vev * vev) / (kap + al / (root2 * s)) *
+    ( mssq + kap * kap * s * s + lam * lam * vev * vev / 2 + kap * ak * s + 
+      mupr * mupr + mspsq - 2 * kap * displayXiF() + 3.0 * kap * s * mupr );
+  
+  /// unfeasible value of sin 2 beta
+  if (fabs(s2b) > 1.) {
+    tanb = 0.;
+    return 1;
+  }
+
+  tanb = tan(0.5 * asin(s2b));
+
+  return 0;
+}
+
 
 
 //PA:: In case of Z3 invariance EWSB outputs kappa instead.
@@ -3602,9 +3631,6 @@ void NmssmSoftsusy::rewsbTreeLevel(int sgnMu) {
    rewsbXiS(xiS);
    setXiS(xiS);
   }
-
-
-
 }
 
 
@@ -3818,72 +3844,78 @@ void NmssmSoftsusy::rewsb(int sgnMu, double mt, double muOld, double eps) {
      return;
    }
    else {
-   double munew, m3sqnew, kapnew, snew;
-  double xiSnew, mSsqnew;
-  double sinthDRbarMS = calcSinthdrbar();
-  
-  calcTadpole1Ms1loop(mt, sinthDRbarMS);  
-  calcTadpole2Ms1loop(mt, sinthDRbarMS); 
-  calcTadpoleSMs1loop(mt, sinthDRbarMS); 
-  
-  munew = displaySusyMu();
-  snew = displaySvev();
-  
-  /// Iterate to get a self-consistent mu solution
-  int maxTries = 20, err = 0;
-  double tol = TOLERANCE * 1.0e-4;
-  
-  double pizztMS = sqr(displayMzRun()) - sqr(displayMz()); /// resums logs
-  //double pizztMS = piZZT(displayMz(), displayMu());
-  
-  if(Z3){
-    iterateSvev(snew, sgnMu, mt, maxTries, pizztMS, sinthDRbarMS,
-	    tol, err); 
-    if (err == 2) flagMusqwrongsign(true);
-    else flagMusqwrongsign(false); 
-    if (err == 1) flagNoMuConvergence(true);
-    else setSvev(snew);
-
-  }
-
-  else{
-    iterateMu(munew, sgnMu, mt, maxTries, pizztMS, sinthDRbarMS,
-	      tol, err); 
-    
-    if (err == 2) flagMusqwrongsign(true);
-    else flagMusqwrongsign(false); 
-    if (err == 1) flagNoMuConvergence(true);
-    else setSusyMu(munew);
-    
-  
-    /// average mu with the input value of muOld, if it isn't the number of the
-    /// beast   
-    if (muOld > -6.e66) {
-      munew = (munew * eps + muOld * (1. - eps));
-      setSusyMu(munew);
-    }
-    
-  }
-  //PA: using Z3 version of EWSB
-  //with kappa as output
-  if(Z3){
-    if (rewsbKap(kapnew) == 0) flagM3sq(false);
-    else flagM3sq(true);   
-    setKappa(kapnew);
-  }
-  else{ //PA: use rewsbM3sq which can work for Z3 violating case
-    if (rewsbM3sq(munew, m3sqnew) == 0) flagM3sq(false);
-    else flagM3sq(true);   
-    setM3Squared(m3sqnew);
-  }
-  if(Z3 == false){
-    rewsbXiS(xiSnew);
-    setXiS(xiSnew);
-  }
-  else{
-    rewsbmSsq(mSsqnew);
-    setMsSquared(mSsqnew);
-  }
+     double munew, m3sqnew, kapnew, snew;
+     double xiSnew, mSsqnew;
+     double sinthDRbarMS = calcSinthdrbar();
+     
+     calcTadpole1Ms1loop(mt, sinthDRbarMS);  
+     calcTadpole2Ms1loop(mt, sinthDRbarMS); 
+     calcTadpoleSMs1loop(mt, sinthDRbarMS); 
+     
+     munew = displaySusyMu();
+     snew = displaySvev();
+     
+     /// Iterate to get a self-consistent mu solution
+     int maxTries = 20, err = 0;
+     double tol = TOLERANCE * 1.0e-4;
+     
+     double pizztMS = sqr(displayMzRun()) - sqr(displayMz()); /// resums logs
+     //double pizztMS = piZZT(displayMz(), displayMu());
+     
+     if(Z3){
+       iterateSvev(snew, sgnMu, mt, maxTries, pizztMS, sinthDRbarMS,
+		   tol, err); 
+       if (err == 2) flagMusqwrongsign(true);
+       else flagMusqwrongsign(false); 
+       if (err == 1) flagNoMuConvergence(true);
+       else setSvev(snew);
+       
+     }
+     
+     else{
+       iterateMu(munew, sgnMu, mt, maxTries, pizztMS, sinthDRbarMS,
+		 tol, err); 
+       
+       if (err == 2) flagMusqwrongsign(true);
+       else flagMusqwrongsign(false); 
+       if (err == 1) flagNoMuConvergence(true);
+       else setSusyMu(munew);
+       
+       
+       /// average mu with the input value of muOld, if it isn't the number 
+       /// of the beast   
+       if (muOld > -6.e66) {
+	 munew = (munew * eps + muOld * (1. - eps));
+	 setSusyMu(munew);
+       }
+     }
+     //PA: using Z3 version of EWSB
+     //with kappa as output
+     if(Z3){
+       if (rewsbKap(kapnew) == 0) flagM3sq(false);
+       else flagM3sq(true);   
+       setKappa(kapnew);
+     }
+     else{ //PA: use rewsbM3sq which can work for Z3 violating case
+       if (rewsbM3sq(munew, m3sqnew) == 0) flagM3sq(false);
+       else flagM3sq(true);
+       setM3Squared(m3sqnew);
+     }
+     if(Z3 == false){
+       rewsbXiS(xiSnew);
+       setXiS(xiSnew);
+     }
+     else{
+       if (!predictTanb) {
+	 rewsbmSsq(mSsqnew);
+	 setMsSquared(mSsqnew);
+       } else {
+	 double tb = 0.;
+	 if (rewsbTanb(munew,  tb) == 0) flagNotGlobalMin(false);
+	 else flagNotGlobalMin(true);
+	 setTanb(tb);
+       }
+     }
    }
 }
 
