@@ -34,6 +34,7 @@
 
 #include "twoloophiggs.h"
 #include "mssmUtils.h"
+#include "twoLoopGluino.h"
 
 #define HR "----------------------------------------------------------"
 

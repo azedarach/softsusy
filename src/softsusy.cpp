@@ -2180,7 +2180,24 @@ void Softsusy<SoftPars>::gluino(int accuracy) {
     return;
   } 
 
-  physpars.mGluino = displayGaugino(3) * (1.0 + delta); 
+  double g3 = displayGaugeCoupling(3);
+  double mdl = forLoops.mu(1, 3), mdr = forLoops.mu(2, 3);
+  double msl = forLoops.mu(1, 3), msr = forLoops.mu(2, 3);
+  double mbl = forLoops.md(1, 3), mbr =forLoops.md(2, 3);
+  double mul = forLoops.mu(1, 3), mur = forLoops.mu(2, 3);
+  double mcl = forLoops.mu(1, 3), mcr = forLoops.mu(2, 3);
+  double mtl = forLoops.md(1, 3), mtr =forLoops.md(2, 3);
+  double thetat = forLoops.thetat, thetab = forLoops.thetab;
+  double m3 = displayGaugino(3);
+  double ht = displayDrBarPars().ht,
+    hb = displayDrBarPars().hb;
+
+  double q  = displayMu();
+  double twoLoopDelta = 
+    twoLoopGluino(g3, mdl, mdr, msl, msr, mbl, mbr, mul, mur, mcl, mcr, 
+		  thetat, thetab, m3, ht, hb, q);
+
+  physpars.mGluino = displayGaugino(3) * (1.0 + delta + twoLoopDelta); 
 }
 
 template<class SoftPars>
