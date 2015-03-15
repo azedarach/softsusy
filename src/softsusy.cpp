@@ -2194,8 +2194,8 @@ void Softsusy<SoftPars>::gluino(int accuracy) {
 
   double q  = displayMu();
   double twoLoopDelta = 
-    twoLoopGluino(g3, mdl, mdr, msl, msr, mbl, mbr, mul, mur, mcl, mcr, 
-		  thetat, thetab, m3, ht, hb, q);
+    twoLoopGluino(g3, mdl, mdr, msl, msr, mbl, mbr, mul, mur, mcl, mcr, mtl, 
+		  mtr, thetat, thetab, m3, ht, hb, q);
 
   physpars.mGluino = displayGaugino(3) * (1.0 + delta + twoLoopDelta); 
 }
